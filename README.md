@@ -14,7 +14,7 @@ This package extends the functionality of [CliFlo](http://cliflo.niwa.co.nz/) by
 Free CliFlo Subscription
 ------------------------
 
-A current [CliFlo subscription](http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) is recommended for *clifro*, otherwise data from only station is available. The subscription is free and lasts for 2 years or 2,000,000 rows without renewal, which enables access to around 6,500 climate stations around New Zealand and the Pacific.
+A current [CliFlo subscription](http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) is recommended for *clifro*, otherwise data from only one station is available. The subscription is free and lasts for 2 years or 2,000,000 rows without renewal, which enables access to around 6,500 climate stations around New Zealand and the Pacific.
 
 Note this package requires internet access for connecting to the National Climate Database web portal.
 
@@ -22,12 +22,8 @@ Installation in R
 =================
 
 ``` {.r}
-# If devtools is not installed, install and load it
-install.packages("devtools")
-library(devtools)
-
-# Install and load clifro
-install_github("ropensci/clifro")
+# Install the latest CRAN release
+install.packages("clifro")
 library(clifro)
 ```
 
@@ -100,7 +96,7 @@ plot(daily.datalist, 2)  # For the second dataframe (Rain)
 
 ![](README-rain-wind-example-2.png)
 
-For more details and tutorials, see the vignettes and demo for how to use *clifro*, including choosing datatypes, stations, saving locations as KML files and easy, elegant plotting for various different climate and weather data.
+For more details and reproducible examples, see the [technical report](http://stattech.wordpress.fos.auckland.ac.nz/2015-02-new-zealands-climate-data-in-r-an-introduction-to-clifro/) for how to use *clifro*, including choosing datatypes, stations, saving locations as KML files and easy, elegant plotting for various different climate and weather data.
 
 ``` {.r}
 # View the clifro demo
@@ -109,3 +105,27 @@ demo(clifro)
 # Read the 'Introduction to clifro' vignette
 vignette("clifro")
 ```
+
+Citation
+========
+
+``` {.bibtex}
+
+To cite package ‘clifro’ in publications use:
+
+Seers B and Shears N (2015). “New Zealand's Climate Data in R - An Introduction to clifro.” The University of Auckland, Auckland, New
+Zealand. <URL: http://stattech.wordpress.fos.auckland.ac.nz/2015-02-new-zealands-climate-data-in-r-an-introduction-to-clifro/>.
+
+A BibTeX entry for LaTeX users is
+
+  @TechReport{,
+    title = {New Zealand's Climate Data in R --- An Introduction to clifro},
+    author = {Blake Seers and Nick Shears},
+    institution = {The University of Auckland},
+    address = {Auckland, New Zealand},
+    year = {2015},
+    url = {http://stattech.wordpress.fos.auckland.ac.nz/2015-02-new-zealands-climate-data-in-r-an-introduction-to-clifro/},
+  }
+```
+
+[![](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
