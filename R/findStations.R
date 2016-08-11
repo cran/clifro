@@ -11,7 +11,9 @@
 #' @importFrom XML htmlParse xmlApply xmlGetAttr
 #' @importFrom utils menu
 cf_region = function(region){
-  regions = htmlParse("http://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_html")
+  cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
+  regions = htmlParse(getURL("https://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_html", 
+                             cainfo = cert))
   region.xml = querySelectorAll(regions, "option[value^='-']")
   region.names = unlist(xmlApply(region.xml, xmlValue))
 
@@ -267,7 +269,7 @@ cf_save_kml = function(station, file_name = "my_stations_",
 #'
 #' The \code{cf_find_station} function is a convenience function for finding
 #' CliFlo stations in \R. It uses the CliFlo
-#' \href{http://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_html}{Find Stations}
+#' \href{https://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_html}{Find Stations}
 #' page to do the searching, and therefore means that the stations are not
 #' stored within \pkg{clifro}.
 #'
@@ -375,6 +377,7 @@ cf_find_station = function(...,
   status = match.arg(arg = status)
   search_string = c(...)
   include_distances = FALSE
+  cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
 
   if (search == "latlong"){
     if (length(search_string) != 3)
@@ -451,11 +454,11 @@ cf_find_station = function(...,
                          cookiejar = cookies)
     param.list = c(param.list, ccomb_dt = combine)
     doc = htmlParse(
-      postForm("http://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn",
-               .params = param.list, curl = curl))
+      postForm("https://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn",
+               .params = param.list, curl = curl, .opts = list(cainfo = cert)))
   } else
-    doc = htmlParse(postForm("http://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_nodt",
-                             .params = param.list))
+    doc = htmlParse(postForm("https://cliflo.niwa.co.nz/pls/niwp/wstn.get_stn_nodt",
+                             .params = param.list, .opts = list(cainfo = cert)))
 
   agent_name_xml = querySelectorAll(doc, "a.st[href*='wstn.stn_details?']")
 
@@ -468,7 +471,7 @@ cf_find_station = function(...,
 
   ## The following is a little messy but I can't figure out how else to do this!
   start_end = distances =
-    sapply(querySelectorAll(doc, "td.stnextdata + td.stnextdata"), xmlValue)
+    sapply(querySelectorAll(doc, "form td.stnextdata + td.stnextdata"), xmlValue)
   which_are_also_dates = start_end == "-"
   start_end = dmy(start_end, quiet = TRUE, tz = "Pacific/Auckland")
   start_end[which_are_also_dates] = with_tz(round_date(now(), "month"),

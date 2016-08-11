@@ -7,7 +7,7 @@
 #'
 #' The \pkg{clifro} package is intended to simplify the process of data
 #' extraction, formatting and visualisation from the
-#' \href{http://cliflo.niwa.co.nz/}{CliFlo web portal}. It
+#' \href{https://cliflo.niwa.co.nz/}{CliFlo web portal}. It
 #' requires the user to build a query consisting of 3 main components; the user,
 #' the datatype(s) and the station(s). These are
 #' then combined using the \code{\link{cf_query}} function that sends the query
@@ -17,7 +17,7 @@
 #' This package requires the user to already have a current subscription to the
 #' National Climate Database unless a public user is sought, where data is
 #' limited to Reefton Ews. Subscription is free and can obtained from
-#' \url{http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro}.
+#' \url{https://cliflo.niwa.co.nz/pls/niwp/wsubform.intro}.
 #'
 #' @seealso \code{\link{cf_user}}, \code{\link{cf_datatype}}, and
 #'   \code{\link{cf_station}} for choosing the clifro user, datatypes and
@@ -143,21 +143,23 @@ cf_login = function(object){
                        cookiefile = cookies,
                        useragent = paste("clifro", R.Version()$version.string),
                        timeout = 100)
+  cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
   if (object@username == "public"){
     login_html = htmlParse(getURL(
-      "http://cliflo.niwa.co.nz/pls/niwp/wgenf.genform1",
-      curl = curl
+      "https://cliflo.niwa.co.nz/pls/niwp/wgenf.genform1",
+      curl = curl, cainfo = cert
     ))
     result = "Info"
   }
   else{
     login_html = htmlParse(postForm(
-      "http://cliflo.niwa.co.nz/pls/niwp/wa.logindb",
+      "https://cliflo.niwa.co.nz/pls/niwp/wa.logindb",
       cusername = object@username,
       cpwd = rot(object@password, 3),
       ispopup = "false",
       submit = "login",
-      curl = curl))
+      curl = curl,
+      .opts = list(cainfo = cert)))
     result = xmlValue(querySelector(login_html, "h1"))
   }
   rm(curl)
@@ -175,13 +177,15 @@ cf_logout = function(object, msg = TRUE){
                          paste("clifro", R.Version()$version.string),
                        cookiefile = cookies,
                        cookiejar = cookies)
+  cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
 
-  header = getURLContent("http://cliflo.niwa.co.nz/pls/niwp/wa.logout",
-                         curl = curl, header = TRUE)
-  if (!grepl("OK", header$header[11]))
+  header = getURLContent("https://cliflo.niwa.co.nz/pls/niwp/wa.logout",
+                         curl = curl, header = TRUE, cainfo = cert)
+  if (!grepl("OK", header$header["statusMessage"]))
     stop("HTTP error")
 
-  getURL("http://cliflo.niwa.co.nz/pls/niwp/wa.logout", curl = curl)
+  getURL("https://cliflo.niwa.co.nz/pls/niwp/wa.logout", 
+         curl = curl, cainfo = cert)
 
   file.remove(cookies)
   if (msg)
@@ -241,7 +245,7 @@ setClass("cfUser",
 #' An object inheriting from the \code{cfUser} class is created by the constructor
 #' function \code{cf_user}. The user must have an active subscription to cliflo
 #' in order to create a valid object, unless a 'public' user is sought.
-#' Visit \url{http://cliflo.niwa.co.nz/} for more information and to subscribe
+#' Visit \url{https://cliflo.niwa.co.nz/} for more information and to subscribe
 #' to cliflo.
 #'
 #' @param username a character string to be used as the cliflo username
@@ -314,10 +318,12 @@ setMethod("summary", signature(object = "cfUser"),
                          paste("clifro", R.Version()$version.string),
                        cookiefile = cookies,
                        cookiejar = cookies)
+  cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
   user_info_xml =
-    getForm("http://cliflo.niwa.co.nz/pls/niwp/wa.subscr_info",
+    getForm("https://cliflo.niwa.co.nz/pls/niwp/wa.subscr_info",
             sub = "t",
-            curl = curl)
+            curl = curl,
+            .opts = list(cainfo = cert))
   user_info_html = querySelectorAll(htmlParse(user_info_xml),
                                     "body.popup > div")
   info = gsub("  |   |    |     ", " ", sapply(user_info_html, xmlValue))
