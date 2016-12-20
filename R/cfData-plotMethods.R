@@ -62,16 +62,14 @@ NULL
 #' # Plot a simple windrose using all the defaults, ignoring any facet variable
 #' with(wind_df, windrose(wind_speeds, wind_dirs))
 #'
-#' # Change the ggtheme and colour scheme for black and white figures
-#' with(wind_df, windrose(wind_speeds, wind_dirs,
-#'                        ggtheme = "bw",
-#'                        col_pal = "Greys"))
-#'
-#' # Create custom speed bins and legend title
+#' # Create custom speed bins, add a legend title, and change to a B&W theme
 #' with(wind_df, windrose(wind_speeds, wind_dirs,
 #'                        speed_cuts = c(3, 6, 9, 12),
 #'                        legend_title = "Wind Speed\n(m/s)",
-#'                        legend.title.align = .5))
+#'                        legend.title.align = .5,
+#'                        ggtheme = "bw",
+#'                        col_pal = "Greys"))
+#'                        
 #' # Note that underscore-separated arguments come from the windrose method, and
 #' # period-separated arguments come from ggplot2::theme().
 #'
@@ -80,11 +78,6 @@ NULL
 #'
 #' # Plot a windrose for each level of the facet variable (each station)
 #' with(wind_df, windrose(wind_speeds, wind_dirs, station, n_col = 2))
-#'
-#' # Make all the text larger
-#' library(ggplot2) # for element_text()
-#' with(wind_df, windrose(wind_speeds, wind_dirs, station,
-#'                        text = element_text(size = 16), n_col = 2))
 #'
 #' \dontrun{
 #' # Save the plot as a png to the current working directory

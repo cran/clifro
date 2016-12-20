@@ -2,7 +2,7 @@
 Enhancing the National Climate Database with *clifro*
 =====================================================
 
-[![Build Status](https://travis-ci.org/ropensci/clifro.svg)](https://travis-ci.org/ropensci/clifro) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/clifro)](http://cran.r-project.org/package=clifro)
+[![Build Status](https://travis-ci.org/ropensci/clifro.svg)](https://travis-ci.org/ropensci/clifro) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/clifro)](https://cran.r-project.org/package=clifro)
 
 The *clifro* package is designed to minimise the hassle in downloading data from New Zealand's National Climate Database via [CliFlo](http://cliflo.niwa.co.nz/). It does this by providing functions for the user to log in, easily choose the appropriate datatypes and stations and then query the database. Once the data have been downloaded, they are stored as specific objects in **R** with the primary aim to ensure data visualisation and exploration is done with minimal effort and maximum efficiency.
 
@@ -21,6 +21,13 @@ Installation in R
 ``` r
 # Install the latest CRAN release
 install.packages("clifro")
+
+# Or the latest development version
+if(!require(devtools))
+  install.packages("devtools")
+devtools::install_github("ropensci/clifro")
+
+# Then load the package
 library(clifro)
 ```
 
@@ -49,7 +56,6 @@ Download and visualise public climate data
 The only station available for unlimited public access to climate data is the Reefton electronic weather station (EWS). We can download the 2014 wind and rain data and easily visualise the results very easily.
 
 ``` r
-# Create a public user
 public.cfuser = cf_user()
 
 # Choose the datatypes
@@ -85,13 +91,13 @@ daily.datalist
 plot(daily.datalist)     # For the first dataframe  (Surface Wind)
 ```
 
-![](README-rain-wind-example-1.png)<!-- -->
+![](README-rain-wind-example-1.png)
 
 ``` r
 plot(daily.datalist, 2)  # For the second dataframe (Rain)
 ```
 
-![](README-rain-wind-example-2.png)<!-- -->
+![](README-rain-wind-example-2.png)
 
 For more details and reproducible examples, see the [technical report](http://stattech.wordpress.fos.auckland.ac.nz/2015-02-new-zealands-climate-data-in-r-an-introduction-to-clifro/) for how to use *clifro*, including choosing datatypes, stations, saving locations as KML files and easy, elegant plotting for various different climate and weather data.
 
@@ -102,6 +108,11 @@ demo(clifro)
 # Read the 'Introduction to clifro' vignette
 vignette("clifro")
 ```
+
+Contributor Code of Conduct
+===========================
+
+The *clifro* package is released with a [contributor code of conduct](./CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 Citation
 ========

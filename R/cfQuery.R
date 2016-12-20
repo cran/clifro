@@ -1,9 +1,6 @@
 #' @include cfDataList.R
 NULL
 
-# Parallel universe ------------------------------------------------------
-cf_parallel = new.env()
-
 # Store the Last Clifro Query
 set_history = function(value) cf_parallel[["last_cf_query"]] = value
 
@@ -181,12 +178,9 @@ cf_query = function(user, datatype, station, start_date, end_date = now(tz),
   cf_login(user)
   on.exit(cf_logout(user, msg = FALSE))
   cookies = file.path(tempdir(), user@username)
-  curl = getCurlHandle(followlocation = TRUE,
-                       timeout = 100,
-                       useragent =
-                         paste("clifro", R.Version()$version.string),
+  curl = getCurlHandle(cookiejar = cookies,
                        cookiefile = cookies,
-                       cookiejar = cookies)
+                       .opts = cf_parallel[["curl_opts"]])
   cert = system.file("CurlSSL/cacert.pem", package = "RCurl")
   all_dt_params = c(datatype@dt_param, unlist(datatype@dt_sel_option_params))
   if (!quiet)
@@ -231,38 +225,40 @@ cf_query = function(user, datatype, station, start_date, end_date = now(tz),
     message("reading data...")
 
   all_lines = readLines(textConnection(doc))
-  table_limits = head(which(all_lines == ""), -2)
-  table_names = all_lines[head(table_limits, -1) + 1]
-  if (grepl("No rows", tail(table_names, 1), fixed = TRUE))
-    stop(tail(table_names, 1))
+  if (any(grepl("^No rows", all_lines)))
+    stop(all_lines[grep("^No rows", all_lines)], call. = FALSE)
+
+  tables_start = tail(grep("^Station", all_lines), -1)
+  tables_end = tail(head(which(all_lines == ""), -2), -1)
+
+  table_indices = mapply(seq, tables_start, tables_end, SIMPLIFY = FALSE)
+  table_constant = rep(1, length(tables_end))
+  table_constant[grepl("ls_fdly", datatype@dt_param, fixed = TRUE)] = 2
+  table_constant[grepl("ls_f301", datatype@dt_param, fixed = TRUE)] = 3
+
+  table_names = all_lines[tables_start - table_constant]
   dt_names = sapply(strsplit(table_names, ":"), "[", 1)
   dt_types = sapply(strsplit(table_names, ":"), "[", 2)
-  tail_msg = paste(all_lines[(tail(table_limits, 1) + 1):length(all_lines)],
+  tail_msg = paste(all_lines[seq(grep("^UserName", all_lines), length(all_lines))],
                    collapse = "\n")
-  table_limits = split(sort(c(head(table_limits, -1), tail(table_limits, -1))),
-                       rep(seq_along(table_limits)[-1], each = 2))
 
-  data_list = lapply(table_limits,
-                     function(x)
-                       read.table(textConnection(all_lines[(x[1] + 2):(x[2] - 1)]),
-                                  sep = "\t", header = TRUE, na.strings = "-",
-                                  check.names = FALSE))
-  nrows = sapply(data_list, nrow)
-  data_list = data_list[nrows != 0]
-  dt_names = dt_names[nrows != 0]
-  dt_types = dt_types[nrows != 0]
-  nrows = nrows[nrows != 0]
+  data_list = lapply(table_indices, function(x)
+    read.table(textConnection(all_lines[x]), sep = "\t", header = TRUE,
+               na.strings = "-", check.names = FALSE))
+
   head_names = lapply(data_list, names)
+  nrows = sapply(data_list, nrow)
+  seq_ind =   which(nrows != 0)
 
-  clifro_data_list = vector("list", length(data_list))
+  clifro_data_list = vector("list", length(seq_ind))
 
-  for (i in seq_along(data_list)){
+  for (i in seq_along(seq_ind)){
     clifro_data_list[[i]] = new("cfData",
-                                dt_name = dt_names[i],
-                                dt_type = dt_types[i],
-                                names = head_names[[i]],
-                                row.names = paste(seq_len(nrows[i])),
-                                as(data_list[[i]], "list"))
+                                dt_name = dt_names[seq_ind[i]],
+                                dt_type = dt_types[seq_ind[i]],
+                                names = head_names[[seq_ind[i]]],
+                                row.names = paste(seq_len(nrows[seq_ind[i]])),
+                                as(data_list[[seq_ind[i]]], "list"))
     clifro_data_list[[i]] = create_object(clifro_data_list[[i]])
   }
   if (!quiet)
