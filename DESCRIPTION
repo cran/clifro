@@ -1,8 +1,8 @@
 Package: clifro
 Type: Package
 Title: Easily Download and Visualise Climate Data from CliFlo
-Version: 3.1-4
-Date: 2017-04-21
+Version: 3.1-5
+Date: 2017-10-04
 Authors@R: person("Blake", "Seers", role = c("aut", "cre"),
     email = "blake.seers@gmail.com")
 VignetteBuilder: knitr
@@ -26,8 +26,8 @@ Collate: 'dataFrame.R' 'cfStation.R' 'cfData.R' 'cfDataList.R'
         'findStations.R'
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-04-21 02:53:47 UTC; blake
+Packaged: 2017-10-05 04:39:44 UTC; blake
 Author: Blake Seers [aut, cre]
 Maintainer: Blake Seers <blake.seers@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-04-21 06:03:30 UTC
+Date/Publication: 2017-10-05 04:47:30 UTC
