@@ -10,7 +10,7 @@ set_history = function(value) cf_parallel[["last_cf_query"]] = value
 #' again and losing subscription rows.
 #'
 #' This function is a back up for when the clifro query has been submitted and
-#' the data returned but has not been assigned, or inadvertantly deleted. This
+#' the data returned but has not been assigned, or inadvertently deleted. This
 #' saves the user resubmitting queries and using more rows from their
 #' subscription than needed.
 #'
@@ -59,7 +59,7 @@ cf_last_query = function() cf_parallel[["last_cf_query"]]
 #'                 \code{\link[lubridate]{now}}.
 #' @param date_format a character string matching one of \code{"ymd_h"},
 #'                    \code{"mdy_h"}, \code{"ydm_h"} or \code{"dmy_h"}
-#'                    representing the \code{\link[lubridate]{lubridate}}
+#'                    representing the \code{\link[lubridate]{lubridate-package}}
 #'                    date parsing function.
 #' @param tz the timezone for which the start and end dates refer to. Conversion
 #'           to Pacific/Auckland time is done automatically through the
@@ -94,8 +94,7 @@ cf_last_query = function() cf_parallel[["last_cf_query"]]
 #' @importFrom lubridate with_tz force_tz ymd_h mdy_h ydm_h dmy_h is.POSIXt year
 #' month day hour
 #' @importFrom RCurl getCurlHandle postForm
-#' @importFrom selectr querySelector
-#' @importFrom XML xmlValue htmlParse
+#' @importFrom xml2 xml_find_first read_html xml_text
 #' @importFrom utils read.table
 #' @return a \code{cfData} or \code{cfDataList} object.
 #' @seealso \code{\link{cf_user}}, \code{\link{cf_datatype}} and
@@ -219,7 +218,7 @@ cf_query = function(user, datatype, station, start_date, end_date = now(tz),
 
   is_HTML = grepl("<!DOCTYPE HTML PUBLIC", doc, fixed = TRUE)
   if (is_HTML){
-    error_msg = xmlValue(querySelector(htmlParse(doc), "h3"))
+    error_msg = xml_text(xml_find_first(read_html(doc), "//h3"))
     if (!is.na(error_msg))
       stop(error_msg)
   }

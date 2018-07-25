@@ -1,8 +1,11 @@
 context("cf_find_station")
 
 test_that("cf_find_station", {
+  skip_on_cran()
+  # skip_on_travis()
+
   tt = cf_find_station("island")
-  
+
   expect_is(tt, "cfStation")
   expect_is(tt$name, "factor")
   expect_is(tt$network, "factor")

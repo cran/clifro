@@ -18,7 +18,7 @@ NULL
 #' in journal articles for example, recommended \code{ggtheme}s are \code{'bw'},
 #' \code{'linedraw'}, \code{'minimal'} or \code{'classic'} and
 #' the \code{col_pal} should be \code{'Greys'}. Otherwise, any of the sequential
-#' \code{\link[RColorBrewer]{RColorBrewer}} colour palettes are recommended for
+#' \code{\link[RColorBrewer]{brewer.pal.info}} colour palettes are recommended for
 #' colour plots.
 #'
 #' @return a \code{ggplot} object.
@@ -38,7 +38,7 @@ NULL
 #' @param variable_wind numeric code for variable winds (if applicable).
 #' @param legend_title character string to be used for the legend title.
 #' @param col_pal character string indicating the name of the
-#'                \code{\link[RColorBrewer]{RColorBrewer}} colour palette to be
+#'                \code{\link[RColorBrewer]{brewer.pal.info}} colour palette to be
 #'                used for plotting, see 'Theme Selection' below.
 #' @param ggtheme character string (partially) matching the
 #'                \code{\link[ggplot2]{ggtheme}} to be used for plotting, see
@@ -268,7 +268,7 @@ if (!isGeneric("plot"))
 #' in journal articles for example, recommended \code{ggtheme}s are \code{'bw'},
 #' \code{'linedraw'}, \code{'minimal'} or \code{'classic'} and
 #' the \code{col_pal} should be \code{'Greys'}. Otherwise, any of the sequential
-#' \code{\link[RColorBrewer]{RColorBrewer}} colour palettes are recommended for
+#' \code{\link[RColorBrewer]{brewer.pal.info}} colour palettes are recommended for
 #' colour plots.
 #'
 #' @param x a \code{cfWind} or \code{cfDataList} object.
@@ -282,7 +282,7 @@ if (!isGeneric("plot"))
 #' @param speed_cuts numeric vector containing the cut points for the wind speed
 #'                 intervals, or NA (default).
 #' @param col_pal character string indicating the name of the
-#'                \code{\link[RColorBrewer]{RColorBrewer}} colour palette to be
+#'                \code{\link[RColorBrewer]{brewer.pal.info}} colour palette to be
 #'                used for plotting, see 'Theme Selection' below.
 #' @param ggtheme character string (partially) matching the
 #'                \code{\link[ggplot2]{ggtheme}} to be used for plotting, see
@@ -701,8 +701,8 @@ setMethod("summary",
                                                      FUN = function(x)
                                                        quantile(ecdf(x)))))
             colnames(speed_ecdf) = seq(0, 100, by = 25)
-            round(cbind(speed_ecdf, calm = calm_days * 100,
-                        variable = variable_days * 100), 1)
+            round(cbind(speed_ecdf, calm_pct = calm_days * 100,
+                        variable_pct = variable_days * 100), 1)
           }
 )
 
@@ -930,7 +930,7 @@ setMethod("plot",
 #' Plot Temperature Range
 #'
 #' Plot minimum and maximum temperature data for a given period (degrees
-#' celsuis) through time, for each chosen CliFlo station.
+#' celsius) through time, for each chosen CliFlo station.
 #'
 #' This plotting method shows the temperature extremes as a grey region on the
 #' plot, with a black line indicating the average temperature (if available).
@@ -997,10 +997,10 @@ setMethod("plot",
             ggtheme = match.arg(ggtheme)
             scales = match.arg(scales)
 
-            x_df = as(x, "data.frame")
-            names(x_df)[c(2, 3, 5, 9)] = c("date", "max", "min", "mean")
+            x_df = as(x, "data.frame")[c(1:3, 5, 9)]
+            names(x_df)[c(2:5)] = c("date", "max", "min", "mean")
 
-            if (!all(is.na(x_df[, 9]))){
+            if (!all(is.na(x_df$mean))){
               p = ggplot(x_df, aes_string(x = "date", y = "mean")) +
                 geom_ribbon(aes_string(ymax = "max", ymin = "min"), alpha = .3) +
                 geom_line()

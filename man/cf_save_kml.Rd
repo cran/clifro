@@ -44,7 +44,7 @@ my.stations
 cf_save_kml(my.stations)
 
 # Double click on the file to open with a default program (if available). All
-# the markers are blue, indicating all these stations are open.
+# the markers are green, indicating all these stations are open.
 
 # Where is the subscription-free Reefton Ews station?
 cf_save_kml(cf_station(), file_name = "reeftonEWS")
@@ -52,7 +52,7 @@ cf_save_kml(cf_station(), file_name = "reeftonEWS")
 # It's located in the sou'west quadrant of Reefton town, in the upper, western
 # part of the South Island, NZ.
 
-Find all the open and closed Christchurch stations (using partial matching)
+# Find all the open and closed Christchurch stations (using partial matching)
 all.chch.st = cf_find_station("christ", status = "all", search = "region")
 
 # How many stations in total?
