@@ -12,7 +12,7 @@
 
 <meta name="author" content="Blake Seers" />
 
-<meta name="date" content="2018-07-26" />
+<meta name="date" content="2019-01-08" />
 
 <title>From CliFlo to clifro: An Introduction</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">From CliFlo to <em>clifro</em>: An Introduction</h1>
 <h4 class="author"><em>Blake Seers</em></h4>
-<h4 class="date"><em>2018-07-26</em></h4>
+<h4 class="date"><em>2019-01-08</em></h4>
 
 
 
@@ -136,7 +136,7 @@ cf.datalist</code></pre></div>
 <div id="msl-atmospheric-pressure" class="section level2">
 <h2>MSL Atmospheric Pressure</h2>
 <p>This is the first dataframe in <code>cf.datalist</code>. Since the first argument passed to <code>plot</code> is a list of different datatypes (<code>cfDataList</code>), the second argument (<code>y</code>) tells the <code>plot</code> method which of the four dataframes to plot.</p>
-<p>We could therefore simply type <code>plot(cf.datalist, y = 1)</code> and get a nice plot of the MSL atmospheric pressure, but it is usually nice to modify the defaults slightly. Since the plot method returns a <code>ggplot</code> object, we can easily modify the plots using <a href="http://ggplot2.org/">ggplot2</a>.</p>
+<p>We could therefore simply type <code>plot(cf.datalist, y = 1)</code> and get a nice plot of the MSL atmospheric pressure, but it is usually nice to modify the defaults slightly. Since the plot method returns a <code>ggplot</code> object, we can easily modify the plots using <a href="https://ggplot2.tidyverse.org">ggplot2</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the ggplot2 library for element_text() and geom_smooth() functions</span>
 <span class="kw">library</span>(ggplot2)
 
