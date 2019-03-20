@@ -12,14 +12,14 @@
 
 <meta name="author" content="Blake Seers" />
 
-<meta name="date" content="2019-01-08" />
+<meta name="date" content="2019-03-20" />
 
 <title>From CliFlo to clifro: An Introduction</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,14 +92,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">From CliFlo to <em>clifro</em>: An Introduction</h1>
 <h4 class="author"><em>Blake Seers</em></h4>
-<h4 class="date"><em>2019-01-08</em></h4>
+<h4 class="date"><em>2019-03-20</em></h4>
 
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>The National Climate Database holds climate data from around 6,500 climate stations around New Zealand including some offshore and Pacific Islands. Over 600 stations are currently active and are still receiving valuable climate data. <a href="http://cliflo.niwa.co.nz/">CliFlo</a> is a web interface to the database managed by <a href="http://www.niwa.co.nz/">NIWA</a>, allowing users to submit queries and retrieve ten-minute, hourly, daily or summary data. The use of CliFlo is free given that the user has <a href="http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro">subscribed</a> and accepted NIWA’s <a href="http://cliflo.niwa.co.nz/doc/terms.html">terms and conditions</a>.</p>
-<p>The <code>clifro</code> package is designed to make CliFlo queries much simpler and provide extensions that are currenly not offered by CliFlo. The intention is to simplify the data extraction, manipulation, exploration and visualisation processes and easily create publication-worthy graphics for some of the primary datatypes, especially for users with limited or non-existent previous R experience. Experienced useRs will also find this package helpful for maximising efficiency of climate data integration with R for further analysis, modelling or export.</p>
+<p>The <code>clifro</code> package is designed to make CliFlo queries much simpler and provide extensions that are currently not offered by CliFlo. The intention is to simplify the data extraction, manipulation, exploration and visualisation processes and easily create publication-worthy graphics for some of the primary datatypes, especially for users with limited or non-existent previous R experience. Experienced useRs will also find this package helpful for maximising efficiency of climate data integration with R for further analysis, modelling or export.</p>
 <p>This vignette provides an introduction to the <code>clifro</code> package demonstrating the primary functionality by way of example. For more information on any of the functions in the <code>clifro</code> package the user is referred to the help index for the <code>clifro</code> package, <code>help(package = &quot;clifro&quot;)</code>.</p>
 </div>
 <div id="create-a-clifro-user" class="section level1">

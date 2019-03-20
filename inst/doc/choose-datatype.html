@@ -12,14 +12,14 @@
 
 <meta name="author" content="Blake Seers" />
 
-<meta name="date" content="2019-01-08" />
+<meta name="date" content="2019-03-20" />
 
 <title>Choosing a clifro Datatype</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,13 +92,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Choosing a <em>clifro</em> Datatype</h1>
 <h4 class="author"><em>Blake Seers</em></h4>
-<h4 class="date"><em>2019-01-08</em></h4>
+<h4 class="date"><em>2019-03-20</em></h4>
 
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The <code>cf_datatype</code> function is all that is required to select <code>clifro</code> datatypes. This function can be called without any arguments that takes the user through interactive menus, otherwise the datatypes may be chosen programatically if the menu options are known in advance. Whether the intention is to choose one datatype or many, this vignette details the various methods in choosing them.</p>
+<p>The <code>cf_datatype</code> function is all that is required to select <code>clifro</code> datatypes. This function can be called without any arguments that takes the user through interactive menus, otherwise the datatypes may be chosen programmatically if the menu options are known in advance. Whether the intention is to choose one datatype or many, this vignette details the various methods in choosing them.</p>
 </div>
 <div id="using-the-menus-interactively-to-choose-a-datatype" class="section level1">
 <h1>Using the menus interactively to choose a datatype</h1>
@@ -119,7 +141,7 @@ surfaceWind.dt =<span class="st"> </span><span class="kw">cf_datatype</span>(<sp
 ## 2: HlyWind
 ## 3: 3HlyWind
 ## 4: 9amWind</code></pre>
-<p>The next menu is the options for the chosen datatype, for which we may choose more than one. If more than one option for a given datatype is sought, options must be chosen one at a time. This is made possible by a menu prompting whether or not we would like to select another datatype everytime an option is chosen.</p>
+<p>The next menu is the options for the chosen datatype, for which we may choose more than one. If more than one option for a given datatype is sought, options must be chosen one at a time. This is made possible by a menu prompting whether or not we would like to select another datatype every time an option is chosen.</p>
 <pre><code>## Choose another option?
 ## 
 ## 1: yes
@@ -143,7 +165,7 @@ surfaceWind.dt =<span class="st"> </span><span class="kw">cf_datatype</span>(<sp
 </div>
 <div id="choosing-a-datatype-without-the-menus" class="section level1">
 <h1>Choosing a datatype without the menus</h1>
-<p>The bold numbers in the minimal example above are emphasised specifically to show the menu order and selections needed to choose the strength of the 9am surface wind in knots datatype, i.e. <strong>2</strong> –&gt; <strong>1</strong> –&gt; <strong>4</strong> –&gt; <strong>3</strong>. In genreal, if we know the selections needed for each of the four menus then we can choose any datatype without using the menus making datatype selection a lot faster and a much less tedious.</p>
+<p>The bold numbers in the minimal example above are emphasised specifically to show the menu order and selections needed to choose the strength of the 9am surface wind in knots datatype, i.e. <strong>2</strong> –&gt; <strong>1</strong> –&gt; <strong>4</strong> –&gt; <strong>3</strong>. In general, if we know the selections needed for each of the four menus then we can choose any datatype without using the menus making datatype selection a lot faster and a much less tedious.</p>
 <div id="a-minimal-example-1" class="section level2">
 <h2>A minimal example</h2>
 <p>To repeat our minimal example without the use of the menus we would just pass them as arguments to the <code>cf_datatype</code> function. These arguments are the selections of each of the four menus (in order) separated by a comma.</p>

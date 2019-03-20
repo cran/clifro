@@ -12,14 +12,14 @@
 
 <meta name="author" content="Blake Seers" />
 
-<meta name="date" content="2019-01-08" />
+<meta name="date" content="2019-03-20" />
 
 <title>Choosing a clifro Station</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -70,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Choosing a <em>clifro</em> Station</h1>
 <h4 class="author"><em>Blake Seers</em></h4>
-<h4 class="date"><em>2019-01-08</em></h4>
+<h4 class="date"><em>2019-03-20</em></h4>
 
 
 
@@ -92,7 +114,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="station-name-search" class="section level2">
 <h2>Station name search</h2>
 <p>Both of these searches use pattern matching to find the appropriate stations. The station name search is useful for searching stations in certain towns or suburbs or maybe even streets and parks. The network ID is a number that is assigned to the stations which makes this search useful to look up stations where these are known.</p>
-<p>These searches are used when part or all of the station name or netword ID is known. For example, consider we are looking for open stations located in Takaka, at the southeastern end of Golden Bay at the northern end of the South Island, New Zealand. The default for the <code>cf_find_station</code> function is to search <em>open</em> station names matching the string.</p>
+<p>These searches are used when part or all of the station name or network ID is known. For example, consider we are looking for open stations located in Takaka, at the southeastern end of Golden Bay at the northern end of the South Island, New Zealand. The default for the <code>cf_find_station</code> function is to search <em>open</em> station names matching the string.</p>
 <p>At the time of writing this, CliFlo ignores the status argument in the name and network ID search whereas <code>clifro</code> does not. Searching open stations with the station name matching “takaka” on CliFlo will return these stations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Equivalent to searching for status = &quot;open&quot; on CliFro</span>
 <span class="co"># Note the search string is not case sensitive</span>
@@ -224,7 +246,7 @@ hourly.rain.dt</code></pre></div>
 </div>
 <div id="more-than-one-search-at-a-time" class="section level1">
 <h1>More than one search at a time</h1>
-<p>Since the <code>cf_find_station</code> function returns <code>cfStation</code> objects, any of these methods work on objects created from the <code>cf_station</code> function (see the <a href="cfStation.html">working with clifro stations vignette</a> for more details). We can conduct two or more seaches at a time using the addition sign, just like we did for <code>cfDatatype</code>s (see the <a href="choose-datatype.html">choose datatypes vignette</a>).</p>
+<p>Since the <code>cf_find_station</code> function returns <code>cfStation</code> objects, any of these methods work on objects created from the <code>cf_station</code> function (see the <a href="cfStation.html">working with clifro stations vignette</a> for more details). We can conduct two or more searches at a time using the addition sign, just like we did for <code>cfDatatype</code>s (see the <a href="choose-datatype.html">choose datatypes vignette</a>).</p>
 <p>We would like to return all open stations within a 10km radius of the Takaka township in the South Island, and the open stations in Kaitaia, in the North Island that collect hourly rain data.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.composite.search =<span class="st"> </span>takaka.town.st <span class="op">+</span><span class="st"> </span><span class="kw">cf_find_station</span>(<span class="st">&quot;kaitaia&quot;</span>, 
                                                        <span class="dt">search =</span> <span class="st">&quot;region&quot;</span>, 
