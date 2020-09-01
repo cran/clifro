@@ -4,7 +4,7 @@ author: "Blake Seers"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{An introduction to clifro}
+  %\VignetteIndexEntry{From CliFlo to *clifro*: An Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -17,11 +17,11 @@ library(clifro)
 The National Climate Database holds climate data from around 6,500 climate 
 stations around New Zealand including some offshore and Pacific Islands. Over
 600 stations are currently active and are still receiving valuable climate data.
-[CliFlo](http://cliflo.niwa.co.nz/) is a web interface to the database managed 
-by [NIWA](http://www.niwa.co.nz/), allowing users to submit queries and retrieve 
+[CliFlo](https://cliflo.niwa.co.nz/) is a web interface to the database managed 
+by [NIWA](https://niwa.co.nz/), allowing users to submit queries and retrieve 
 ten-minute, hourly, daily or summary data. The use of CliFlo is free given that 
-the user has [subscribed](http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) and 
-accepted NIWA's [terms and conditions](http://cliflo.niwa.co.nz/doc/terms.html).
+the user has [subscribed](https://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) and 
+accepted NIWA's [terms and conditions](https://cliflo.niwa.co.nz/doc/terms.html).
 
 The `clifro` package is designed to make CliFlo queries much simpler and
 provide extensions that are currently not offered by CliFlo. The intention is 
@@ -40,7 +40,7 @@ the `clifro` package, `help(package = "clifro")`.
 # Create a clifro User
 As stated above, if the intention is to extract data from any station other than
 Reefton Ews (subscription-free) and to maximise the potential of `clifro`, a 
-valid [subscription](http://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) is 
+valid [subscription](https://cliflo.niwa.co.nz/pls/niwp/wsubform.intro) is 
 needed.
 
 The `cf_user` function is all that is required to create a valid `clifro` user,
@@ -98,13 +98,12 @@ my.stations[, 1:5]
 ```
 
 ```
-##                name network agent      start        end
-## 1 Invercargill Aero  I68433  5814 1939-09-01 2018-07-26
-## 2       Nelson Aero  G13222  4241 1940-07-01 2018-07-26
-## 3     Auckland Aero  C74082  1962 1962-05-01 2018-07-26
-## 4      Hamilton Aws  C75834  2112 1989-11-30 2018-07-26
+##                name network agent      start                 end
+## 1 Invercargill Aero  I68433  5814 1939-09-01 2020-08-18 02:00:00
+## 2       Nelson Aero  G13222  4241 1940-07-01 2020-08-18 02:00:00
+## 3     Auckland Aero  C74082  1962 1962-05-01 2020-08-18 02:00:00
+## 4      Hamilton Aws  C75834  2112 1989-11-30 2020-08-18 02:00:00
 ```
-
 # Retrieve the CliFlo Data
 
 Now that we have a valid `clifro` user and the datatypes and stations of 
@@ -123,10 +122,10 @@ cf.datalist
 ```
 ## List containing clifro data frames:
 ##               data      type              start                end rows
-## df 1)     Pressure  9am only (2012-01-01  8:00) (2013-01-01  8:00) 1468
-## df 2)      Max_min     Daily (2012-01-01  8:00) (2013-12-31  8:00) 2923
-## df 3)         Rain     Daily (2012-01-01  8:00) (2013-12-31  8:00) 2923
-## df 4) Surface Wind  9am only (2012-01-01  8:00) (2013-01-01  8:00) 1468
+## df 1)     Pressure  9am only (2012-01-01  9:00) (2013-01-01  9:00) 1468
+## df 2)      Max_min     Daily (2012-01-01  9:00) (2013-12-31  9:00) 2923
+## df 3)         Rain     Daily (2012-01-01  9:00) (2013-12-31  9:00) 2923
+## df 4) Surface Wind  9am only (2012-01-01  9:00) (2013-01-01  9:00) 1468
 ```
 
 We can see that the pressure and surface wind data only span one year.
